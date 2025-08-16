@@ -58,9 +58,7 @@ function tool_leakcheck_password_validate($password, $user) {
             if (!empty($user->id) && !isguestuser($user) && $run) {
                 global $DB;
                 // Set the password to empty, so it cannot be used again, locking the user out.
-                $user->password = '';
-                // Update the user record.
-                $DB->update_record('user', $user);
+                $DB->update_record('user', ['id' => $user->id, 'password' => '']);
                 // Destroy all sessions for this user.
                 \core\session\manager::destroy_user_sessions($user->id);
                 // Redirect to the forgot password page with an error message.

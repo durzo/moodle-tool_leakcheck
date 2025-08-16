@@ -42,12 +42,7 @@ if ($hassiteconfig) {
 
     if (!during_initial_install()) {
 
-        // $message = false;
-
-        // if (!empty($CFG->forced_plugin_settings['tool_leakcheck']['enabled'])) {
-        //     $message = true;
-        //     $text = get_string('passwordforcedconfigmanual', 'tool_leakcheck');
-        // }
+        $message = false;
 
         if ($message) {
             $templatedesc = $OUTPUT->notification($text, 'notifymessage');
