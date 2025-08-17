@@ -37,7 +37,7 @@ defined('MOODLE_INTERNAL') || die;
 function tool_leakcheck_password_validate($password, $user) {
     $errs = '';
     // Check against HaveIBeenPwned.com password breach API.
-    if (get_config('tool_leakcheck', 'password_blacklist')) {
+    if (get_config('tool_leakcheck', 'enabled')) {
         $leaked = tool_leakcheck_password_blacklist($password);
         $errs .= $leaked;
 
