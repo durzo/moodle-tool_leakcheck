@@ -56,11 +56,12 @@ function tool_leakcheck_password_validate($password, $user) {
             }
 
             if (!empty($user->id) && !isguestuser($user) && $run) {
-                global $DB;
+                global $CFG, $DB;
                 // Set the password to empty, so it cannot be used again, locking the user out.
                 $DB->update_record('user', ['id' => $user->id, 'password' => '']);
                 // Destroy all sessions for this user.
-                \core\session\manager::destroy_user_sessions($user->id);
+                $killmethod = $CFG->branch >= 405 ? 'destroy_user_sessions' : 'kill_user_sessions';
+                \core\session\manager::$killmethod($user->id);
                 // Redirect to the forgot password page with an error message.
                 $forgoturl = new \moodle_url('/login/forgot_password.php');
                 redirect($forgoturl, get_string('responsebreachedpasswordlogout', 'tool_leakcheck'), 1, \core\output\notification::NOTIFY_ERROR);
