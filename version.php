@@ -25,7 +25,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2024111402;
+$plugin->version   = 2025082700;
 $plugin->release   = $plugin->version;
 $plugin->requires  = 2016052300;
 $plugin->component = 'tool_leakcheck';

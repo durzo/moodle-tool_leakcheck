@@ -51,10 +51,10 @@ if ($hassiteconfig) {
 
         $settings->add(new admin_setting_configcheckbox('tool_leakcheck/enabled',
                 get_string('passwordenablename', 'tool_leakcheck'),
-                get_string('passwordenabledesc', 'tool_leakcheck'), 0));
+                get_string('passwordenabledesc', 'tool_leakcheck'), 1));
 
         $settings->add(new admin_setting_configcheckbox('tool_leakcheck/lockout_on_leak',
                 get_string('passwordleaklockoutname', 'tool_leakcheck'),
-                get_string('passwordleaklockoutdesc', 'tool_leakcheck'), 0));
+                get_string('passwordleaklockoutdesc', 'tool_leakcheck'), 1));
     }
 }
