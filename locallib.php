@@ -36,6 +36,11 @@ defined('MOODLE_INTERNAL') || die;
  */
 function tool_leakcheck_password_validate($password, $user) {
     $errs = '';
+    // sometimes we get here from other auth types (oidc) and
+    // we cant check empty passwords anyway, so just return OK.
+    if (empty($password)) {
+        return '';
+    }
     // Check against HaveIBeenPwned.com password breach API.
     if (get_config('tool_leakcheck', 'enabled')) {
         $leaked = tool_leakcheck_password_blacklist($password);
