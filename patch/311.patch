@@ -1,0 +1,13 @@
+diff --git a/lib/moodlelib.php b/lib/moodlelib.php
+index c4ab00d02aa..640d9b86d3e 100644
+--- a/lib/moodlelib.php
++++ b/lib/moodlelib.php
+@@ -4406,6 +4406,8 @@ function authenticate_user_login($username, $password, $ignorelockout=false, &$f
+             continue;
+         }
+ 
++        component_class_callback('tool_leakcheck\leakcheck', 'auth_callback', [$user, $password, $authplugin]);
++
+         // Before performing login actions, check if user still passes password policy, if admin setting is enabled.
+         if (!empty($CFG->passwordpolicycheckonlogin)) {
+             $errmsg = '';

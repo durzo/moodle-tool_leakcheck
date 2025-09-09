@@ -24,24 +24,19 @@
  */
 
 $string['pluginname'] = 'Password Leak Checker';
-
-$string['configpasswordpolicy'] = 'It appears that the "Password Policy" (passwordpolicy) control is disabled. If this control is disabled, new users will not be able to view information about the password policy when setting their password.';
-$string['configpasswordcheckonlogin'] = 'It appears that the "Check password on login" (passwordpolicycheckonlogin) control is disabled. This plugin cannot function correctly without it.';
-$string['configpasswordgood'] = 'Moodle configuration appears to be correct.';
+$string['pluginenabled'] = 'The plugin is enabled.';
+$string['plugindisabled'] = "The plugin is not enabled.";
 $string['passwordenablename'] = 'Enable plugin';
 $string['passwordenabledesc'] = 'Securely check passwords against the haveibeenpwned.com Breached passwords API.';
-// $string['passwordforcedconfigmanual'] = 'Settings are read only, configuration is set in a forced configuration file.';
 $string['responsebreachedpassword'] = 'Password found in online breached passwords collection.';
+$string['responsebreachedpasswordlogout'] = 'Password found in online breached passwords collection. Please request a new password immediately.';
 $string['responseapierror'] = 'Service HaveIBeenPwned.com password API was not responsive.';
 $string['testpasswordpagestring'] = 'Leaked password tester';
 $string['testpasswordpage'] = 'Password leak check configuration';
 $string['testpasswordpagepasswordbox'] = 'Enter a password to test:';
-$string['testpasswordpageusernamebox'] = 'Enter user account email or username to test configured password against:';
+$string['testpasswordempty'] = 'Cannot test an empty password';
 $string['testpasswordpagetestbutton'] = 'Test password';
 $string['testpasswordconfigchecker'] = 'Moodle configuration checker';
 $string['testpasswordvalidationtester'] = 'Password leak check tester';
 $string['testpasswordvalidationpassed'] = 'Password successfully passed validation testing.';
-$string['responsebreachedpasswordlogout'] = 'Password found in online breached passwords collection. Please request a new password immediately.';
-$string['passwordleaklockoutname'] = 'Lockout on password leak';
-$string['passwordleaklockoutdesc'] = 'If a password is found in the breached passwords collection, the user will be logged out of all sessions, locked out of Moodle, and redirected to the forgot password page.';
 $string["privacy:metadata"] = "The Password leak checker plugin does not store any personal data.";

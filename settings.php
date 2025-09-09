@@ -24,8 +24,6 @@
  */
 defined('MOODLE_INTERNAL') || die;
 
-global $CFG;
-
 if ($hassiteconfig) {
 
     // Create leakcheck category for page and external page.
@@ -40,21 +38,9 @@ if ($hassiteconfig) {
     $settings = new admin_settingpage('leakchecksettings', get_string('testpasswordpage', 'tool_leakcheck'));
     $ADMIN->add('leakcheck', $settings);
 
-    if (!during_initial_install()) {
+    // if (!during_initial_install()) {
 
-        $message = false;
-
-        if ($message) {
-            $templatedesc = $OUTPUT->notification($text, 'notifymessage');
-            $settings->add(new admin_setting_heading('tool_leakcheck/template_heading', '', $templatedesc));
-        }
-
-        $settings->add(new admin_setting_configcheckbox('tool_leakcheck/enabled',
-                get_string('passwordenablename', 'tool_leakcheck'),
-                get_string('passwordenabledesc', 'tool_leakcheck'), 1));
-
-        $settings->add(new admin_setting_configcheckbox('tool_leakcheck/lockout_on_leak',
-                get_string('passwordleaklockoutname', 'tool_leakcheck'),
-                get_string('passwordleaklockoutdesc', 'tool_leakcheck'), 1));
-    }
+    $settings->add(new admin_setting_configcheckbox('tool_leakcheck/enabled',
+            get_string('passwordenablename', 'tool_leakcheck'),
+            get_string('passwordenabledesc', 'tool_leakcheck'), 1));
 }

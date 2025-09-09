@@ -26,6 +26,8 @@
 
 namespace tool_leakcheck\form;
 
+use tool_leakcheck\leakcheck;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once("$CFG->libdir/formslib.php");
@@ -39,43 +41,22 @@ class test_password_form extends \moodleform {
         $mform->addElement('text', 'testerpassword', get_string('testpasswordpagepasswordbox', 'tool_leakcheck'));
         $mform->setType('testerpassword', PARAM_RAW);
 
-        $mform->addElement('text', 'testerinput', get_string('testpasswordpageusernamebox', 'tool_leakcheck'));
-        $mform->setType('testerinput', PARAM_RAW);
-
         $this->add_action_buttons(true, get_string('testpasswordpagetestbutton', 'tool_leakcheck'));
     }
 
     public function validation($data, $files) {
         global $DB, $USER;
-        require_once(__DIR__.'/../../lib.php');
         $errors = parent::validation($data, $files);
 
         $testpassword = $data['testerpassword'];
-        $testerinput = $data['testerinput'];
 
-        $otheruser = '';
-
-        // Try input as username first, then email.
-        $foundusers = $DB->get_records('user', array('username' => ($testerinput)));
-        if (!empty($foundusers)) {
-            // Get first matching username record.
-            $otheruser = reset($foundusers);
-        } else {
-            $foundusers = $DB->get_records('user', array('email' => ($testerinput)));
-            if (!empty($foundusers)) {
-                // Get first matching email record (should be unique).
-                $otheruser = reset($foundusers);
-            } else {
-                $otheruser = $USER;
-            }
-        }
-
-        // Don't check if testpassword is empty. If record exists for optional user,
-        // check pw against that account. Else, against currenlty logged in account.
+        // Don't check if testpassword is empty.
         $testervalidation = '';
-        if ($testpassword != '') {
+        if (empty($testpassword)) {
+            $testervalidation = get_string('testpasswordempty', 'tool_leakcheck');
+        } else {
             // $testervalidation = tool_leakcheck_check_password_policy($testpassword, $otheruser);
-            $testervalidation = tool_leakcheck_password_validate($testpassword, $otheruser);
+            $testervalidation = leakcheck::tool_leakcheck_password_validate($testpassword);
         }
 
         if (!empty($testervalidation)) {

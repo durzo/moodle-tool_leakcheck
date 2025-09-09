@@ -22,15 +22,15 @@
  * @copyright 2019 Peter Burnett <peterburnett@catalyst-au.net>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+use tool_leakcheck\leakcheck;
 require_once(dirname(__FILE__) . '/../../../config.php');
 require_once($CFG->libdir . '/adminlib.php');
-require_once(__DIR__.'/locallib.php');
 
 admin_externalpage_setup('tool_leakcheck_form');
 
 $prevurl = ($CFG->wwwroot.'/admin/category.php?category=leakcheck');
 $success = false;
-$configcheckdesc = tool_leakcheck_config_checker();
+$configcheckdesc = leakcheck::tool_leakcheck_config_checker();
 
 $form = new \tool_leakcheck\form\test_password_form();
 

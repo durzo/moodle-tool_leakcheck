@@ -15,33 +15,55 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * A tool to validate passwords against particular password policies.
+ * Callback implementations for Password Leak Checker
  *
- * @package   tool_leakcheck
- * @copyright 2025 Jordan Tomkinson <jordan.tomkinson@openlms.net>
- * @copyright 2019 Peter Burnett <peterburnett@catalyst-au.net>
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    tool_leakcheck
+ * @copyright  2025 Jordan Tomkinson <jordan.tomkinson@openlms.net>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-defined('MOODLE_INTERNAL') || die;
+
+use tool_leakcheck\leakcheck;
 
 /**
- * Wrapper function for the password validation. Simply calls password validate
- * with test mode disabled.
- *
- * @param string $password The password to be validated.
- * @param stdClass $user A user object to perform validation against if preset. Defaults to null
- * @return string Returns a string of any errors presented by the checks, or an empty string for success.
- *
+ * Validate password change form
+ * checks password against breach API if enabled.
+ * If password is found to be breached, an error is returned to the form.
+ * 
+ * @param array $data The data from the form.
+ * @param stdClass $user not used here.
+ * @return array of errors
  */
-
-function tool_leakcheck_check_password_policy($password, $user = null) {
+function tool_leakcheck_validate_extend_change_password_form($data, $user) {
     if (get_config('tool_leakcheck', 'enabled')) {
-        // If plugin is enabled, execute validation.
-        require_once(__DIR__.'/locallib.php');
-        return tool_leakcheck_password_validate($password, $user);
-    } else {
-        // Empty, passed validation.
-        return '';
+        $error = leakcheck::tool_leakcheck_password_validate($data['newpassword1']);
+        if (!empty($error)) {
+            $errors = array();
+            $errors['newpassword1'] = '<div>' . $error . '</div>';
+            $errors['newpassword2'] = '<div>' . $error . '</div>';
+            return $errors;
+        }
     }
+    return array();
 }
 
+/**
+ * Validate password set form
+ * checks password against breach API if enabled.
+ * If password is found to be breached, an error is returned to the form.
+ * 
+ * @param array $data The data from the form.
+ * @param stdClass $user not used here.
+ * @return array of errors
+ */
+function tool_leakcheck_validate_extend_set_password_form($data, $user) {
+    if (get_config('tool_leakcheck', 'enabled')) {
+        $error = leakcheck::tool_leakcheck_password_validate($data['password']);
+        if (!empty($error)) {
+            $errors = array();
+            $errors['password'] = '<div>' . $error . '</div>';
+            $errors['password2'] = '<div>' . $error . '</div>';
+            return $errors;
+        }
+    }
+    return array();
+}
