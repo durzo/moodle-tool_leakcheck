@@ -48,8 +48,7 @@ class leakcheck {
                 \core\session\manager::$killmethod($user->id);
                 // Trigger a login failed event.
                 $failurereason = get_string('responsebreachedpasswordlogout', 'tool_leakcheck');
-                $event = \core\event\user_login_failed::create(array('other' => array('username' => $user->username,
-                        'reason' => $failurereason)));
+                $event = \tool_leakcheck\event\check_failed::create(['other' => ['username' => $user->username], 'userid' => $user->id, 'relateduserid' => $user->id]);
                 $event->trigger();
                 // Redirect to the forgot password page with an error message.
                 if ($authplugin->can_reset_password()) {
