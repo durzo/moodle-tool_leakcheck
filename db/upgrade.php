@@ -57,9 +57,7 @@ function xmldb_tool_leakcheck_upgrade($oldversion) {
         }
 
         // removed setting lockout_on_leak
-        if (!empty($DB->get_field('config_plugins', 'name', ['plugin' => 'tool_leakcheck', 'name' => 'lockout_on_leak']))) {
-            $DB->delete_records('config_plugins', ['plugin' => 'tool_leakcheck', 'name' => 'lockout_on_leak']);
-        }
+        unset_config('lockout_on_leak', 'tool_leakcheck');
 
         upgrade_plugin_savepoint(true, 2025090900, 'tool', 'leakcheck');
     }
