@@ -43,4 +43,12 @@ if ($hassiteconfig) {
     $settings->add(new admin_setting_configcheckbox('tool_leakcheck/enabled',
             get_string('passwordenablename', 'tool_leakcheck'),
             get_string('passwordenabledesc', 'tool_leakcheck'), 1));
+
+    $settings->add(new admin_setting_configtext('tool_leakcheck/include_auths',
+            get_string('includeauthsname', 'tool_leakcheck'),
+            get_string('includeauthsdesc', 'tool_leakcheck'), '', PARAM_TEXT));
+
+    $settings->add(new admin_setting_configtext('tool_leakcheck/exclude_auths',
+            get_string('excludeauthsname', 'tool_leakcheck'),
+            get_string('excludeauthsdesc', 'tool_leakcheck'), '', PARAM_TEXT));
 }

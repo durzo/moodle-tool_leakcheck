@@ -36,7 +36,7 @@ class leakcheck {
      * @return void
      */
     public static function auth_callback($user, $password, $authplugin) {
-        if ($authplugin->is_internal() && !empty($user->id) && !isguestuser($user)) {
+        if (!empty($user->id) && !isguestuser($user) && self::tool_leakcheck_authtype_check($authplugin)) {
             $leaked = self::tool_leakcheck_password_validate($password);
 
             if (!empty($leaked)) {
@@ -59,6 +59,24 @@ class leakcheck {
                 redirect($forgoturl, $failurereason, 1, \core\output\notification::NOTIFY_ERROR);
             }
         }
+    }
+
+    /**
+     * Determines if the auth plugin is internal, or whether it is one of the auth plugins
+     * included or excluded in the settings for checking.
+     *
+     * @param \auth_plugin_base $authplugin
+     * @return bool
+     */
+    public static function tool_leakcheck_authtype_check($authplugin) {
+        $includeauths = preg_split('/ *, */', trim(get_config('tool_leakcheck', 'include_auths') ?? ''), -1, PREG_SPLIT_NO_EMPTY);
+        if ($authplugin->is_internal() || in_array($authplugin->authtype, $includeauths)) {
+            $excludeauths = preg_split('/ *, */', trim(get_config('tool_leakcheck', 'exclude_auths') ?? ''), -1, PREG_SPLIT_NO_EMPTY);
+            if (!in_array($authplugin->authtype, $excludeauths)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
