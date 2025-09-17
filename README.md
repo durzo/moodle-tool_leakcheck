@@ -8,7 +8,7 @@ If a password is found to be compromised, the plugin enforces security measures 
 * All active sessions for the user are terminated across all devices and browsers.
 * The user is redirected to the password reset page with a notification, prompting them to set a new password.
 
-The plugin uses a custom core patch (in the patches/ directory) to hook into the login process and enforce these security measures, 
+The plugin uses a custom core patch (in the patch/ directory) to hook into the login process and enforce these security measures, 
 as the current password policy check logic in Moodle is flawed - see MDL-82719 and MDL-86329 for more details.
 
 Plugin configuration is done via the Moodle admin interface, under Site administration > Plugins > Admin Tools > Password leak checker.
