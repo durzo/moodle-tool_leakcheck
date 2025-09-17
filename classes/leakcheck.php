@@ -159,6 +159,16 @@ class leakcheck {
             }
         }
 
+        // check for the core patch by looking for the string "tool_leakcheck\leakcheck" in $CFG->libdir.'/moodlelib.php'.
+        $moodlelib = file_get_contents($CFG->libdir.'/moodlelib.php');
+        if (stripos($moodlelib, 'tool_leakcheck\leakcheck') === false) {
+            $response .= get_string('corepatchmissing', 'tool_leakcheck').'<br>';
+            // If notify is currently success.
+            if ($type == 'notifysuccess') {
+                $type = 'notifyerror';
+            }
+        }
+
         // If no errors at end, return a good message.
         if ($type == 'notifysuccess') {
             $response .= get_string('pluginenabled', 'tool_leakcheck').'<br>';

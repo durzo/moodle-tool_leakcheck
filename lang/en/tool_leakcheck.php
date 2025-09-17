@@ -23,6 +23,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['corepatchmissing'] = 'Moodle core patch missing';
 $string['eventfailed'] = 'Leakcheck failed';
 $string['pluginname'] = 'Password Leak Checker';
 $string['pluginenabled'] = 'The plugin is enabled.';
